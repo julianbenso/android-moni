@@ -22,21 +22,7 @@ class MainActivity : AppCompatActivity() {
         uiData.showLoading?.consume()?.let { showLoading(it) }
         uiData.showLoanStatus?.consume()?.let { showLoanStatus(it) }
     }
-
-
-    private fun showLoanStatus(it: LoanStatus) {
-        findViewById<TextView>(R.id.textView).text = it.toString()
-        findViewById<TextView>(R.id.textView).setTextColor(resources.getColor(R.color.black))
-    }
-
-    private fun showLoading(it: Boolean) {
-        val progressView = findViewById<View>(R.id.progressbar)
-        progressView.visibility = if (it) View.VISIBLE else View.GONE
-    }
-
-    private fun showError(it: Throwable) {
-        Toast.makeText(this, it.message, Toast.LENGTH_LONG).show()
-    }
+    private lateinit var msjStatusLoan : TextView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -44,9 +30,29 @@ class MainActivity : AppCompatActivity() {
 
         viewModel.uiData.observe(this, uiDataObserver)
 
+        msjStatusLoan =  findViewById(R.id.textView)
+
         findViewById<View>(R.id.button).setOnClickListener {
             val dniText = findViewById<EditText>(R.id.dni).text.toString()
             viewModel.canApplyForLoan(dniText)
         }
     }
+
+
+    private fun showLoanStatus(it: LoanStatus) {
+        msjStatusLoan.visibility = View.VISIBLE
+        msjStatusLoan.text = resources.getString(R.string.estado_crediticio,it.toString())
+    }
+
+    private fun showLoading(it: Boolean) {
+        val progressView = findViewById<View>(R.id.progressbar)
+        progressView.visibility = if (it) View.VISIBLE else View.GONE
+        msjStatusLoan.visibility = View.GONE
+    }
+
+    private fun showError(it: Throwable) {
+        Toast.makeText(this, it.message, Toast.LENGTH_LONG).show()
+    }
+
+
 }

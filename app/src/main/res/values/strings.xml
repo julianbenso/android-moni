@@ -1,3 +1,13 @@
 <resources>
     <string name="app_name">Prestamo Moni</string>
+    <string name="btn_verificar_estado_crediticio">Verificar estado crediticio</string>
+    <string name="introduzca_sus_datos">Introduzca sus datos</string>
+    <string name="hint_nombre">ingresa tu nombre</string>
+    <string name="hint_apellido">ingresa tu apellido</string>
+    <string name="hint_genero">ingresa tu género</string>
+    <string name="hint_email">ingresa tu email</string>
+    <string name="hint_dni">ingresa tu dni</string>
+    <string name="btn_lista_peticiones">Listar peticiones</string>
+    <string name="estado_crediticio">Estado crediticio: %s</string>
+    <string name="title_app">App de Prestamos MONI</string>
 </resources>
