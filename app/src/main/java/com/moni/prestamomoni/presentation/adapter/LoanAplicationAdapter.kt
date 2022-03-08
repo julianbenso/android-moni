@@ -58,7 +58,6 @@ class LoanAplicationAdapter (
                     items[position].genre,
                     items[position].loanStatus)
             ))
-
         }
     }
 
