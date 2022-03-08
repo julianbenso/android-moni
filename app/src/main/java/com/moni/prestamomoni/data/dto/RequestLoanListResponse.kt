@@ -1,4 +1,4 @@
-package com.moni.prestamomoni.data
+package com.moni.prestamomoni.data.dto
 
 import com.google.gson.annotations.SerializedName
 

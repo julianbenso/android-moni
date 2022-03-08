@@ -9,6 +9,11 @@ class LoanApplicationListActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?){
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_loan_aplication_list)
-        supportFragmentManager.beginTransaction().replace(R.id.container_loan_aplication_list,LoanAplicationListFragment())
+        supportFragmentManager.beginTransaction().replace(
+            R.id.container_loan_aplication_list,
+            LoanAplicationListFragment(),
+            LoanAplicationListFragment().tag
+        )
+            .addToBackStack(LoanAplicationListFragment().tag)
     }
 }

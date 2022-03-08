@@ -1,29 +1,28 @@
-package com.moni.prestamomoni.api
+package com.moni.prestamomoni.data.apiclient
 
-import com.google.gson.GsonBuilder
-import com.moni.prestamomoni.data.RequestResult
+import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
+import retrofit2.adapter.rxjava3.RxJava3CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
 import java.util.concurrent.TimeUnit
 
-class CanApplyForLoanApiClient {
+class ApiClient {
 
     private val baseUrl = "https://api.moni.com.ar/api/v4/scoring/pre-score/"
 
-    fun getStatusLoan() : Retrofit{
+    fun createRetrofit() : Retrofit{
         val builder = okhttp3.OkHttpClient.Builder()
+            .addInterceptor(HttpLoggingInterceptor().apply { level = HttpLoggingInterceptor.Level.BODY })
             .readTimeout(1, TimeUnit.MINUTES)
             .connectTimeout(1, TimeUnit.MINUTES)
             .writeTimeout(1, TimeUnit.MINUTES)
 
-        val gson = GsonBuilder()
-            .registerTypeAdapter(RequestResult::class.java,RequestResult())
-            .create()
 
         return Retrofit.Builder()
             .client(builder.build())
             .baseUrl(baseUrl)
-            .addConverterFactory(GsonConverterFactory.create(gson))
+            .addConverterFactory(GsonConverterFactory.create())
+            .addCallAdapterFactory(RxJava3CallAdapterFactory.create())
             .build()
     }
 }

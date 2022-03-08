@@ -1,18 +1,20 @@
 package com.moni.prestamomoni.presentation
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ProgressBar
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.moni.prestamomoni.R
-import com.moni.prestamomoni.adapter.LoanAplicationAdapter
 import com.moni.prestamomoni.domain.model.Loan
 import com.moni.prestamomoni.domain.usecase.LoanAplicationListUsecase
+import com.moni.prestamomoni.presentation.adapter.LoanAplicationAdapter
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import io.reactivex.rxjava3.kotlin.addTo
@@ -45,6 +47,7 @@ class LoanAplicationListFragment : Fragment() {
             .subscribeBy(
                 onError = { Toast.makeText(requireContext(),"OCURRIO ERROR",Toast.LENGTH_SHORT).show()
                             loadingList.visibility = View.GONE
+                    Log.e(TAG, "onViewCreated: Error de respuesta de server", it)
                           },
                 onSuccess = { listLoan ->
                     loanAplicationAdapter = LoanAplicationAdapter(listLoan){onAdapter(it)}
@@ -65,5 +68,9 @@ class LoanAplicationListFragment : Fragment() {
     override fun onDestroy() {
         super.onDestroy()
         composite.clear()
+    }
+
+    companion object {
+        private const val TAG = "LoanAplicationListFragm"
     }
 }
