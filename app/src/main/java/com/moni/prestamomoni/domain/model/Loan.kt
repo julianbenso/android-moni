@@ -1,5 +1,7 @@
 package com.moni.prestamomoni.domain.model
 
+import java.io.Serializable
+
 data class Loan (
     val name : String? = null,
     val last : String? = null,
@@ -7,4 +9,4 @@ data class Loan (
     val email : String? = null,
     val genre : String? = null,
     var loanStatus : String? = null
-)
+) : Serializable

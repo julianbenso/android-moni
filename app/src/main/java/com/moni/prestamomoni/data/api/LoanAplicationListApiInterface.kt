@@ -1,9 +1,6 @@
 package com.moni.prestamomoni.data.api
 
 import com.moni.prestamomoni.data.dto.ErrorDTO
-import com.moni.prestamomoni.data.dto.RegistrationResult
-import com.moni.prestamomoni.data.dto.RequestLoanListResponse
-import com.moni.prestamomoni.domain.model.Dni
 import com.moni.prestamomoni.domain.model.Loan
 import io.reactivex.rxjava3.core.Single
 import retrofit2.http.*

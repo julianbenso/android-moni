@@ -12,7 +12,6 @@ import com.moni.prestamomoni.R
 import com.moni.prestamomoni.domain.model.Dni
 import com.moni.prestamomoni.domain.model.Loan
 import com.moni.prestamomoni.domain.usecase.RemoveLoanApplyUsecase
-import com.moni.prestamomoni.presentation.*
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 
@@ -48,16 +47,7 @@ class LoanAplicationAdapter (
         }
 
         holder.itemView.findViewById<Button>(R.id.btn_modify).setOnClickListener {
-            val fragmentManager = LoanApplicationListActivity().supportFragmentManager
-            fragmentManager.beginTransaction().replace(R.id.container_loan_aplication_list,LoanApplicationModificationFragment(
-                Loan(
-                    items[position].name,
-                    items[position].last,
-                    items[position].dni,
-                    items[position].email,
-                    items[position].genre,
-                    items[position].loanStatus)
-            ))
+            oicl.invoke(items[position])
         }
     }
 

@@ -8,8 +8,6 @@ import android.view.ViewGroup
 import android.widget.ProgressBar
 import android.widget.Toast
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentManager
-import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.moni.prestamomoni.R
 import com.moni.prestamomoni.domain.model.Loan
@@ -23,46 +21,52 @@ import org.koin.android.ext.android.inject
 
 class LoanAplicationListFragment : Fragment() {
 
-    private val mLoanAplicationListUsecase : LoanAplicationListUsecase by inject()
-    private lateinit var loanAplicationAdapter : LoanAplicationAdapter
+    private val mLoanAplicationListUsecase: LoanAplicationListUsecase by inject()
+    private lateinit var loanAplicationAdapter: LoanAplicationAdapter
     private val composite = CompositeDisposable()
-    lateinit var loan : Loan
+    lateinit var loan: Loan
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.fragment_loan_aplication_list,container,false)
+        return inflater.inflate(R.layout.fragment_loan_aplication_list, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val recycler : RecyclerView = view.findViewById(R.id.rcv_loan_list)
+        val recycler: RecyclerView = view.findViewById(R.id.rcv_loan_list)
         val loadingList = view.findViewById<ProgressBar>(R.id.loading_list)
 
         //busca las solicitudes de prestamo
         mLoanAplicationListUsecase.call()
             .observeOn(AndroidSchedulers.mainThread())
             .subscribeBy(
-                onError = { Toast.makeText(requireContext(),"OCURRIO ERROR",Toast.LENGTH_SHORT).show()
-                            loadingList.visibility = View.GONE
+                onError = {
+                    Toast.makeText(requireContext(), "OCURRIO ERROR", Toast.LENGTH_SHORT).show()
+                    loadingList.visibility = View.GONE
                     Log.e(TAG, "onViewCreated: Error de respuesta de server", it)
-                          },
+                },
                 onSuccess = { listLoan ->
-                    loanAplicationAdapter = LoanAplicationAdapter(listLoan){onAdapter(it)}
+                    loanAplicationAdapter = LoanAplicationAdapter(listLoan) { onLoanClick(it) }
                     recycler.adapter = loanAplicationAdapter
                     loadingList.visibility = View.GONE
                 }
             )
             .addTo(composite)
 
-        recycler.layoutManager =LinearLayoutManager(context)
         loadingList.visibility = View.VISIBLE
     }
 
-    private fun onAdapter(item : Loan){
-        loan = item
+    private fun onLoanClick(item: Loan) {
+        parentFragmentManager.beginTransaction()
+            .replace(
+                R.id.container_loan_aplication_list,
+                LoanApplicationModificationFragment.newInstance(item)
+            )
+            .addToBackStack(null)
+            .commit()
     }
 
     override fun onDestroy() {

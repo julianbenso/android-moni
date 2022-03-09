@@ -7,18 +7,13 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
+import android.widget.Toast
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import com.moni.prestamomoni.R
-import com.moni.prestamomoni.domain.model.Dni
 import com.moni.prestamomoni.domain.model.Loan
-import com.moni.prestamomoni.domain.usecase.RemoveLoanApplyUsecase
-import com.moni.prestamomoni.domain.usecase.SaveLoanAplicationUsecase
-import org.koin.android.ext.android.inject
 
-class LoanApplicationModificationFragment (val loan: Loan) : Fragment() {
-
-    private val removeLoanApplyUsecase: RemoveLoanApplyUsecase by inject()
-    private val saveLoanAplicationUsecase : SaveLoanAplicationUsecase by inject()
+class LoanApplicationModificationFragment : Fragment() {
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -30,34 +25,32 @@ class LoanApplicationModificationFragment (val loan: Loan) : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        val loan = arguments?.getSerializable(LOAN_BUNDLE) as? Loan
+            ?: error("Debes pasar como argumento un loan")
+
         val newName = view.findViewById<EditText>(R.id.et_nombre)
-            newName.setText(loan.name)
+        newName.setText(loan.name)
         val newLast = view.findViewById<EditText>(R.id.et_apellido)
-            newLast.setText(loan.last)
+        newLast.setText(loan.last)
         val newEmail = view.findViewById<EditText>(R.id.et_email)
-            newEmail.setText(loan.email)
+        newEmail.setText(loan.email)
         val newGenre = view.findViewById<EditText>(R.id.et_genero)
-            newGenre.setText(loan.genre)
-        var dniOld = view.findViewById<TextView>(R.id.et_dni)
-        dniOld.text= loan.dni
+        newGenre.setText(loan.genre)
+        val dniOld = view.findViewById<TextView>(R.id.et_dni)
+        dniOld.text = loan.dni
 
         view.findViewById<Button>(R.id.btn_modificar_solicitud).setOnClickListener {
-            removeLoanApplyUsecase.call(Dni(dniOld.toString()))
-            saveLoanAplicationUsecase.call(
-                Loan(
-                    newName.text.toString(),
-                    newLast.text.toString(),
-                    dniOld.text.toString(),
-                    newEmail.text.toString(),
-                    newGenre.text.toString(),
-                    loan.loanStatus
-                )
-            )
+            Toast.makeText(context, R.string.proximamente, Toast.LENGTH_LONG).show()
         }
     }
 
-    companion object{
-        val tag = "LoanApplicationModificationFragmentTAG"
+    companion object {
+        const val LOAN_BUNDLE = "LOAN_BUNDLE"
+        fun newInstance(loan: Loan): LoanApplicationModificationFragment {
+            return LoanApplicationModificationFragment().apply {
+                arguments = bundleOf(LOAN_BUNDLE to loan)
+            }
+        }
     }
 
 }
