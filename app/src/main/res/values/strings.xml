@@ -10,4 +10,22 @@
     <string name="btn_lista_peticiones">Listar peticiones</string>
     <string name="estado_crediticio">Estado crediticio: %s</string>
     <string name="title_app">App de Prestamos MONI</string>
+    <string name="title_lista_de_solicitudes_de_prestamo">Lista de solicitudes de Préstamo</string>
+    <string name="item_status">Estado: %s</string>
+    <string name="item_titular_nombre">Titular: %1$s %2$s</string>
+    <string name="item_titular_dni">DNI: %s</string>
+    <string name="item_titular_email">email: %s</string>
+    <string name="item_titular_genero">Género : %s</string>
+    <string name="btn_eliminar_solicitud">Eliminar solicitud</string>
+    <string name="btn_modificar_solicitud">modificar solucitud</string>
+    <string name="title_item_prestamo">Prestamo Moni</string>
+    <string name="registration_result_message_ok">Su solicitud de préstamo fue registrada correctamente</string>
+    <string name="registration_result_message_fail">No se pudo registrar su solicitud de préstamo. Intente nuevamente.</string>
+    <string name="btn_modificar_solicitud_prestamo">Modificar</string>
+    <string name="campo_dni">DNI:</string>
+    <string name="campo_genero">Género:</string>
+    <string name="campo_email">Email:</string>
+    <string name="campo_apellido">Apellido:</string>
+    <string name="campo_nombre">Nombre:</string>
+    <string name="proximamente">Próximamente...</string>
 </resources>
